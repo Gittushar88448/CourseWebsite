@@ -3,9 +3,11 @@ import React from 'react'
 const NavBar = () => {
   return (
     <div>
-        <h1>
+      <nav className="bg-bgDark py-4">
+        <h1 className="text-3xl font-bold text-center text-white">
             TOP COURSES
         </h1>
+      </nav>
     </div>
   )
 }
