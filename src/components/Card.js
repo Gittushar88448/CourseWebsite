@@ -1,9 +1,28 @@
 import React from 'react';
 import {FcLike,FcLikePlaceholder} from "react-icons/fc"
+import { toast } from 'react-toastify';
 
 
 const Card = (props) => {
 let data = props.data;
+const likedCourses = props.likedCourses;
+const setLikedCourses = props.setLikedCourses;
+
+
+function clickHandler(){
+
+    if(likedCourses.includes(data.id)){
+        setLikedCourses((prev) => prev.filter((cid)=> data.id !== cid));
+        toast.warning("Like removed successfully")
+    }else{
+        if(likedCourses.length === 0 ){
+            setLikedCourses([data.id])
+        }else{
+            setLikedCourses((prev)=>[...prev , data.id]);
+        }
+        toast.success("Liked successfully");
+    }
+}
  return (
   <div className='w-[300px] bg-bgDark bg-opacity-80 rounded-md overflow-hidden' >
       <div className='relative'>
@@ -12,10 +31,11 @@ let data = props.data;
 
           <div className='w-[40px] h-[40px] bg-white rounded-full absolute right-2 bottom-[-12px]
           grid place-items-center'>
-              <button >
+              <button onClick={clickHandler}>
                   {
-                       
-                      <FcLike fontSize="1.75rem" />
+                       likedCourses.includes(data.id)?
+                      (<FcLike fontSize="1.75rem" />):
+                      (<FcLikePlaceholder  fontSize="1.75rem"/>)
             
                   }
               </button>
@@ -27,9 +47,9 @@ let data = props.data;
           <p className="text-white font-semibold text-lg leading-6">{data.title}</p>
           <p className='mt-2 text-white'>
                   {
-                       data.description
-                //       (courses.description.substr(0,100)) + "..." :
-                //       (courses.description)
+                       data.description.length > 100 ?
+                      (data.description.substr(0,100)) + "..." :
+                      (data.description)
                   }
           </p>
       </div>
