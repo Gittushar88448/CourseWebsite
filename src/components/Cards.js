@@ -1,18 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Card from './Card';
 const Cards = (props) => {
 
+const [likedCourses, setLikedCourses] = useState([]);
+
 let courses = props.courses;
+const category = props.category;
+
     function getCourses(){
- 
+
+        if(category === "All"){
             let allCourses = [];
             Object.values(courses).forEach(array => {
                 array.forEach(courseData => {
                     allCourses.push(courseData);
                 })
-            });
-
+            })
             return allCourses;
+        }
+        else{
+            return courses[category];
+        }   
+
 
     }
     return (
@@ -21,7 +30,9 @@ let courses = props.courses;
             getCourses().map(data=>(
                <Card
                 data={data}
-                key= {data.id}/>
+                key= {data.id}
+                likedCourses={likedCourses}
+                setLikedCourses={setLikedCourses}/>
             ))
         }
     </div>
