@@ -9,13 +9,14 @@ import { toast } from "react-toastify";
 function App() {
   const [courses , setCourses] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [category , setCategory] = useState(filterData[0].title);
 
  async function dataGathering(){
     setLoading(true);
     try{
       const response = await fetch(apiUrl);
-      const data = await response.json();
-      setCourses(data);
+      const output = await response.json();
+      setCourses(output.data);
     }
     catch(error){
       toast.error("Data is not fetched");
@@ -28,19 +29,21 @@ function App() {
   },[]);
 
   return (
-    <div className="App">
+    <div className="min-h-screen flex flex-col bg-bgDark2">
         <div>
           <NavBar/>
         </div>
 
         <div>
           <Filter
-          filterData={filterData}/>
+          filterData={filterData}
+          category={category} 
+          setCategory={setCategory}/>
         </div>
 
         <div>
           {
-            loading ? (<Spinner/>) : (<Cards courses = {courses}/>)
+            loading ? (<Spinner/>) : (<Cards courses={courses} category={category}/>)
           }
         </div>
 
